@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace CollatzProject
 {
-    public class CollatzСalculations
+    public class CollatzСalculations : IEnumerable<ulong>
     {
-        public ulong NumberSteps { get; set; }
-        public StringBuilder MessageAboutSteps { get; set; }
 
         public CollatzСalculations(ulong number)
         {
-            MessageAboutSteps = new StringBuilder("Количество выполненых шагов:");
             GetNumberSteps(number);
         }
 
@@ -38,18 +36,56 @@ namespace CollatzProject
             }
         }
 
-        private bool DefineEvenNumber(ulong value)
+        private bool DefineEvenNumber(ulong value) => value % 2 == 0;
+
+        public IEnumerable<ulong> GetCollatzСalculations(long outputValue)
         {
-            if (value % 2 == 0)
-            {
-                return true;
-            }
-            return false;
+            
         }
 
-        private void BuildMessage(string errorMessage)
+        public IEnumerator<ulong> GetEnumerator()
         {
-            MessageAboutSteps = new StringBuilder(errorMessage + " на шаге:");
+            return new CollatzEnumerator();
         }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator)GetEnumerator();
+        }
+    }
+
+    public class CollatzEnumerator : IEnumerator<ulong>
+    {
+        private ulong[] collatzIEnumerator;
+        int position = -1;
+
+        public ulong Current => collatzIEnumerator[position];
+
+        object IEnumerator.Current { get { return this.Current; } }
+
+        public CollatzEnumerator()
+        {
+
+        }
+
+        public void Dispose()
+        {
+            
+        }
+
+        public bool MoveNext()
+        {
+            if(position < collatzIEnumerator.Length-1)
+            {
+                ++position;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void Reset() => position = -1;
     }
 }
