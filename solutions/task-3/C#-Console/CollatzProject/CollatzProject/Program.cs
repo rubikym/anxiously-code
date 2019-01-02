@@ -10,6 +10,13 @@ namespace CollatzProject
     {
         static void Main(string[] args)
         {
+            var outputNumber = GetNaturalNumber();
+            Console.WriteLine(String.Format("Total steps completed:{0}", GetNumberOfSteps(outputNumber)));
+            Console.ReadLine();
+        }
+
+        private static ulong GetNaturalNumber()
+        {
             var thisIsNumber = false;
             var outputNumber = 0UL;
             do
@@ -23,13 +30,24 @@ namespace CollatzProject
                 }
                 else
                 {
-                    Console.WriteLine("The value entered has not been validated.");
+                    Console.WriteLine(GetErrorMessage(outputString));
                 }
             }
             while (!thisIsNumber);
+            return outputNumber;
+        }
 
-            Console.WriteLine(String.Format("Total steps completed:{0}", GetNumberOfSteps(outputNumber)));
-            Console.ReadLine();
+        private static string GetErrorMessage(string outputString)
+        {
+            switch (outputString)
+            {
+                case var _ when Int32.TryParse(outputString, out var i) && i <= 0:
+                    return "You can't enter value less than zero";
+                case var _ when Double.TryParse(outputString, out var _):
+                    return "You can't enter a fractional value";
+                default:
+                    return "you can not enter not number";
+            }
         }
 
         private static long GetNumberOfSteps(ulong outputNumber)
