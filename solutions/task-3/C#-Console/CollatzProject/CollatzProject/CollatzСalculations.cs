@@ -9,43 +9,16 @@ namespace CollatzProject
 {
     public class CollatzСalculations : IEnumerable<ulong>
     {
+        private ulong outputNumber;
 
         public CollatzСalculations(ulong number)
         {
-            GetNumberSteps(number);
-        }
-
-        private void GetNumberSteps(ulong inputNumber)
-        {
-            for (NumberSteps = 0; inputNumber > 1; NumberSteps++)
-            {
-                if (DefineEvenNumber(inputNumber))
-                {
-                    inputNumber = inputNumber / 2;
-                }
-                else
-                {
-                    var validate = new Validation(inputNumber);
-                    if (!String.IsNullOrEmpty(validate.ErrorMessage))
-                    {
-                        BuildMessage(validate.ErrorMessage);
-                        return;
-                    }
-                    inputNumber = inputNumber * 3 + 1;
-                }
-            }
-        }
-
-        private bool DefineEvenNumber(ulong value) => value % 2 == 0;
-
-        public IEnumerable<ulong> GetCollatzСalculations(long outputValue)
-        {
-            
+            outputNumber = number;
         }
 
         public IEnumerator<ulong> GetEnumerator()
         {
-            return new CollatzEnumerator();
+            return new CollatzEnumerator(outputNumber);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -56,36 +29,34 @@ namespace CollatzProject
 
     public class CollatzEnumerator : IEnumerator<ulong>
     {
-        private ulong[] collatzIEnumerator;
-        int position = -1;
+        private ulong currentValue;
 
-        public ulong Current => collatzIEnumerator[position];
+        public CollatzEnumerator(ulong outputNumber) => currentValue = outputNumber;
+
+        public ulong Current => currentValue;
 
         object IEnumerator.Current { get { return this.Current; } }
 
-        public CollatzEnumerator()
-        {
-
-        }
-
-        public void Dispose()
-        {
-            
-        }
+        public void Dispose() { }
 
         public bool MoveNext()
         {
-            if(position < collatzIEnumerator.Length-1)
-            {
-                ++position;
-                return true;
-            }
-            else
+            if (!(currentValue < ((UInt64.MaxValue - 1) / 3)))
             {
                 return false;
             }
+
+            if (currentValue % 2 == 0)
+            {
+                currentValue = currentValue / 2;
+            }
+            else
+            {
+                currentValue = currentValue * 3 + 1;
+            }
+            return true;
         }
 
-        public void Reset() => position = -1;
+        public void Reset() => currentValue = 1;
     }
 }
