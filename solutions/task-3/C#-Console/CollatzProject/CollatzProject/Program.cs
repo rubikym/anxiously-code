@@ -10,43 +10,40 @@ namespace CollatzProject
     {
         static void Main(string[] args)
         {
-            var console = DisplayAndIntroduce();
-
-            while (!Validated(console.inputValue))
+            var thisIsNumber = false;
+            var outputNumber = 0UL;
+            do
             {
-                console = DisplayAndIntroduce();
+                Console.WriteLine("Enter natural number");
+                var outputString = Console.ReadLine();
+                if (UInt64.TryParse(outputString, out var number))
+                {
+                    outputNumber = number;
+                    thisIsNumber = true;
+                }
+                else
+                {
+                    Console.WriteLine("The value entered has not been validated.");
+                }
             }
-            var calculation = new CollatzСalculations(UInt64.Parse(console.inputValue));
-            DisplayAndIntroduce(calculation.MessageAboutSteps + calculation.NumberSteps.ToString());
+            while (!thisIsNumber);
+
+            Console.WriteLine(String.Format("Total steps completed:{0}", GetNumberOfSteps(outputNumber)));
+            Console.ReadLine();
         }
 
-        private static WorkWithConsole DisplayAndIntroduce(string outputValue = "")
+        private static long GetNumberOfSteps(ulong outputNumber)
         {
-            WorkWithConsole console;
-            if (String.IsNullOrEmpty(outputValue))
+            var step = 0;
+            foreach (var number in new CollatzSequence(outputNumber))
             {
-                console = new WorkWithConsole();
+                ++step;
+                if (number == 1)
+                {
+                    break;
+                }
             }
-            else
-            {
-                console = new WorkWithConsole(outputValue);
-            }
-
-            console.OutputValue();
-            console.EnterValue();
-            return console;
-        }
-
-        private static bool Validated(string value)
-        {
-            var validation = new Validation(value);
-            while (!String.IsNullOrEmpty(validation.ErrorMessage))
-            {
-                var console = new WorkWithConsole(validation.ErrorMessage);
-                console.OutputValue();
-                return false;
-            }
-            return true;
+            return step;
         }
     }
 }
