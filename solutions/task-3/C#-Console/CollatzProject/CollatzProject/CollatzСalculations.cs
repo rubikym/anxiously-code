@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace CollatzProject
 {
-    public class CollatzСalculations : IEnumerable<ulong>
+    public class CollatzSequence : IEnumerable<ulong>
     {
         private ulong outputNumber;
 
-        public CollatzСalculations(ulong number)
+        public CollatzSequence(ulong number)
         {
             outputNumber = number;
         }
