@@ -8,10 +8,10 @@ namespace CollatzProject
         {
             do
             {
-                var outputNumber = ReadNaturalNumber();
+                var input = ReadNaturalNumber();
                 try
                 {
-                    Console.WriteLine($"Total steps completed: {CalculateNumberOfSteps(outputNumber)}");
+                    Console.WriteLine($"Total steps completed: {CalculateNumberOfSteps(input)}");
                 }
                 catch (CollatzOverflowExeption e)
                 {
@@ -39,10 +39,10 @@ namespace CollatzProject
             while (true);
         }
 
-        private static long CalculateNumberOfSteps(ulong outputNumber)
+        private static long CalculateNumberOfSteps(ulong input)
         {
             var step = 0;
-            foreach (var number in new CollatzSequence(outputNumber))
+            foreach (var number in new CollatzSequence(input))
             {
                 ++step;
                 if (number == 1)

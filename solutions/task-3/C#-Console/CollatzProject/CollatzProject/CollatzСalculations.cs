@@ -6,16 +6,16 @@ namespace CollatzProject
 {
     public class CollatzSequence : IEnumerable<ulong>
     {
-        private ulong outputNumber;
+        private ulong input;
 
         public CollatzSequence(ulong number)
         {
-            outputNumber = number;
+            input = number;
         }
 
         public IEnumerator<ulong> GetEnumerator()
         {
-            return new CollatzEnumerator(outputNumber);
+            return new CollatzEnumerator(input);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -29,10 +29,10 @@ namespace CollatzProject
         private ulong startingValue;
         private ulong currentValue;
 
-        public CollatzEnumerator(ulong outputNumber)
+        public CollatzEnumerator(ulong input)
         {
-            currentValue = outputNumber;
-            startingValue = outputNumber;
+            currentValue = input;
+            startingValue = input;
         }
 
         public ulong Current => currentValue;
