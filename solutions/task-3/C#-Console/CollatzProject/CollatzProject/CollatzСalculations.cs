@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollatzProject
 {
@@ -48,7 +45,7 @@ namespace CollatzProject
         {
             if (!(currentValue < ((UInt64.MaxValue - 1) / 3)))
             {
-                throw new CollatzOverflowExeption("Entered number caused overflow. Can't be calculated collatz sequence.");
+                throw new CollatzOverflowExeption();
             }
 
             currentValue = (currentValue % 2 == 0) ? currentValue / 2 : currentValue * 3 + 1;
@@ -61,6 +58,7 @@ namespace CollatzProject
 
     public class CollatzOverflowExeption : Exception
     {
-        public CollatzOverflowExeption(string message) : base(message) { }
+        public override string Message => "Entered number caused overflow. Can't be calculated collatz sequence.";
+        public CollatzOverflowExeption() : base() { }
     }
 }

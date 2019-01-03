@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace CollatzProject
 {
@@ -11,9 +6,19 @@ namespace CollatzProject
     {
         static void Main(string[] args)
         {
-            var outputNumber = ReadNaturalNumber();
-            Console.WriteLine($"Total steps completed: {CalculateNumberOfSteps(outputNumber)}");
-            Console.ReadLine();
+            do
+            {
+                var outputNumber = ReadNaturalNumber();
+                try
+                {
+                    Console.WriteLine($"Total steps completed: {CalculateNumberOfSteps(outputNumber)}");
+                }
+                catch (CollatzOverflowExeption e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            while (true);
         }
 
         private static ulong ReadNaturalNumber()
@@ -36,24 +41,17 @@ namespace CollatzProject
 
         private static long CalculateNumberOfSteps(ulong outputNumber)
         {
-            try
+            var step = 0;
+            foreach (var number in new CollatzSequence(outputNumber))
             {
-                var step = 0;
-                foreach (var number in new CollatzSequence(outputNumber))
+                ++step;
+                if (number == 1)
                 {
-                    ++step;
-                    if (number == 1)
-                    {
-                        break;
-                    }
+                    break;
                 }
-                return step;
             }
-            catch (CollatzOverflowExeption ex)
-            {
-                Console.WriteLine(ex.Message);
-                return 0;
-            }
+            return step;
+            
         }
     }
 }
