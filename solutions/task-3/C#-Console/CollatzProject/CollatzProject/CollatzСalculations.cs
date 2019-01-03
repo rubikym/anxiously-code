@@ -48,7 +48,7 @@ namespace CollatzProject
         {
             if (!(currentValue < ((UInt64.MaxValue - 1) / 3)))
             {
-                return false;
+                throw new CollatzOverflowExeption("Entered number caused overflow. Can't be calculated collatz sequence.");
             }
 
             currentValue = (currentValue % 2 == 0) ? currentValue / 2 : currentValue * 3 + 1;
@@ -57,5 +57,10 @@ namespace CollatzProject
         }
 
         public void Reset() => currentValue = startingValue;
+    }
+
+    public class CollatzOverflowExeption : Exception
+    {
+        public CollatzOverflowExeption(string message) : base(message) { }
     }
 }

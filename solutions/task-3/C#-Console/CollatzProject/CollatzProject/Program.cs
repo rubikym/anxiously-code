@@ -36,16 +36,24 @@ namespace CollatzProject
 
         private static long CalculateNumberOfSteps(ulong outputNumber)
         {
-            var step = 0;
-            foreach (var number in new CollatzSequence(outputNumber))
+            try
             {
-                ++step;
-                if (number == 1)
+                var step = 0;
+                foreach (var number in new CollatzSequence(outputNumber))
                 {
-                    break;
+                    ++step;
+                    if (number == 1)
+                    {
+                        break;
+                    }
                 }
+                return step;
             }
-            return step;
+            catch (CollatzOverflowExeption ex)
+            {
+                Console.WriteLine(ex.Message);
+                return 0;
+            }
         }
     }
 }
