@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CollatzProject
@@ -27,23 +28,10 @@ namespace CollatzProject
                 }
                 else
                 {
-                    Console.WriteLine(GetErrorMessage(input));
+                    Console.WriteLine("The value entered is not natural number");
                 }
             }
             while (true);
-        }
-
-        private static string GetErrorMessage(string outputString)
-        {
-            switch (outputString)
-            {
-                case var _ when Int32.TryParse(outputString, out var i) && i <= 0:
-                    return "You can't enter value less or equal than zero";
-                case var _ when Double.TryParse(outputString, out var _):
-                    return "You can't enter a fractional value";
-                default:
-                    return "You can not enter not number";
-            }
         }
 
         private static long CalculateNumberOfSteps(ulong outputNumber)
