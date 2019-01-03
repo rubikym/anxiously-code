@@ -49,7 +49,6 @@ namespace CollatzProject
 
     public class CollatzOverflowExeption : Exception
     {
-        public override string Message => "Entered number caused overflow. Can't be calculated collatz sequence.";
-        public CollatzOverflowExeption() : base() { }
+        public CollatzOverflowExeption() : base("Cannot calculate the number of steps through Collatz sequence") { }
     }
 }
