@@ -6,27 +6,18 @@ namespace CollatzProject
 {
     public class CollatzSequence : IEnumerable<ulong>
     {
-        private ulong input;
+        private readonly ulong input;
 
-        public CollatzSequence(ulong number)
-        {
-            input = number;
-        }
+        public CollatzSequence(ulong number) => input = number;
 
-        public IEnumerator<ulong> GetEnumerator()
-        {
-            return new CollatzEnumerator(input);
-        }
+        public IEnumerator<ulong> GetEnumerator() => new CollatzEnumerator(input);
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return (IEnumerator)GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumerator();
     }
 
     public class CollatzEnumerator : IEnumerator<ulong>
     {
-        private ulong startingValue;
+        private readonly ulong startingValue;
         private ulong currentValue;
 
         public CollatzEnumerator(ulong input)
