@@ -29,9 +29,14 @@ namespace CollatzProject
 
     public class CollatzEnumerator : IEnumerator<ulong>
     {
+        private ulong startingValue;
         private ulong currentValue;
 
-        public CollatzEnumerator(ulong outputNumber) => currentValue = outputNumber;
+        public CollatzEnumerator(ulong outputNumber)
+        {
+            currentValue = outputNumber;
+            startingValue = outputNumber;
+        }
 
         public ulong Current => currentValue;
 
@@ -46,17 +51,11 @@ namespace CollatzProject
                 return false;
             }
 
-            if (currentValue % 2 == 0)
-            {
-                currentValue = currentValue / 2;
-            }
-            else
-            {
-                currentValue = currentValue * 3 + 1;
-            }
+            currentValue = (currentValue % 2 == 0) ? currentValue / 2 : currentValue * 3 + 1;
+            
             return true;
         }
 
-        public void Reset() => currentValue = 1;
+        public void Reset() => currentValue = startingValue;
     }
 }

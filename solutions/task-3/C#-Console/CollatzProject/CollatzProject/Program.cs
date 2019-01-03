@@ -10,31 +10,27 @@ namespace CollatzProject
     {
         static void Main(string[] args)
         {
-            var outputNumber = GetNaturalNumber();
-            Console.WriteLine(String.Format("Total steps completed:{0}", GetNumberOfSteps(outputNumber)));
+            var outputNumber = ReadNaturalNumber();
+            Console.WriteLine($"Total steps completed: {CalculateNumberOfSteps(outputNumber)}");
             Console.ReadLine();
         }
 
-        private static ulong GetNaturalNumber()
+        private static ulong ReadNaturalNumber()
         {
-            var thisIsNumber = false;
-            var outputNumber = 0UL;
             do
             {
                 Console.WriteLine("Enter natural number");
-                var outputString = Console.ReadLine();
-                if (UInt64.TryParse(outputString, out var number))
+                var input = Console.ReadLine();
+                if (UInt64.TryParse(input, out var number))
                 {
-                    outputNumber = number;
-                    thisIsNumber = true;
+                    return number;
                 }
                 else
                 {
-                    Console.WriteLine(GetErrorMessage(outputString));
+                    Console.WriteLine(GetErrorMessage(input));
                 }
             }
-            while (!thisIsNumber);
-            return outputNumber;
+            while (true);
         }
 
         private static string GetErrorMessage(string outputString)
@@ -42,15 +38,15 @@ namespace CollatzProject
             switch (outputString)
             {
                 case var _ when Int32.TryParse(outputString, out var i) && i <= 0:
-                    return "You can't enter value less than zero";
+                    return "You can't enter value less or equal than zero";
                 case var _ when Double.TryParse(outputString, out var _):
                     return "You can't enter a fractional value";
                 default:
-                    return "you can not enter not number";
+                    return "You can not enter not number";
             }
         }
 
-        private static long GetNumberOfSteps(ulong outputNumber)
+        private static long CalculateNumberOfSteps(ulong outputNumber)
         {
             var step = 0;
             foreach (var number in new CollatzSequence(outputNumber))
